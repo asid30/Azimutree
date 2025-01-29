@@ -6,6 +6,7 @@ export default function RootLayout() {
     <Stack
       screenOptions={{
         headerShadowVisible: false,
+        statusBarBackgroundColor: "black",
       }}
     >
       <Stack.Screen
@@ -13,7 +14,11 @@ export default function RootLayout() {
         options={{ headerShown: false, title: "Home" }}
       />
       <Stack.Screen
-        name="kamera"
+        name="camera"
+        options={{ headerShown: false, title: "Kamera" }}
+      />
+      <Stack.Screen
+        name="camera-example"
         options={{ headerShown: false, title: "Kamera" }}
       />
     </Stack>
