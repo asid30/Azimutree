@@ -42,14 +42,13 @@ export default function Index() {
               <Text style={{ textAlign: "center" }}>Camera Example</Text>
             </Pressable>
           </Link>
-          <Link href="/" style={styles.unPressedDisabled} asChild>
+          <Link href="/camera-example-v2" style={styles.unPressed} asChild>
             <Pressable
               onPressIn={() => setIsPressed(true)}
               onPressOut={() => setIsPressed(false)}
               onPress={() => console.log("Kamera")}
-              disabled
             >
-              <Text style={{ textAlign: "center" }}>Menu Example</Text>
+              <Text style={{ textAlign: "center" }}>Camera Example v2</Text>
             </Pressable>
           </Link>
         </View>
