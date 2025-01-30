@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, TouchableOpacity, Image, Button } from 'react-n
 import { CameraView, useCameraPermissions } from 'expo-camera';
 import * as MediaLibrary from 'expo-media-library';
 
-export default function CameraScreen() {
+export default function cameraExampleV2() {
     const [facing, setFacing] = useState('back');
     const [permission, requestPermission] = useCameraPermissions();
     const [mediaPermission, setMediaPermission] = useState(null);
