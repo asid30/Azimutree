@@ -19,11 +19,15 @@ export default function RootLayout() {
       />
       <Stack.Screen
         name="camera-example"
-        options={{ headerShown: false, title: "Kamera" }}
+        options={{ headerShown: false, title: "camera-example" }}
       />
       <Stack.Screen
         name="camera-example-v2"
-        options={{ headerShown: false, title: "Kamera" }}
+        options={{ headerShown: false, title: "camera-example-v2" }}
+      />
+      <Stack.Screen
+        name="scanner-example"
+        options={{ headerShown: false, title: "scanner-example" }}
       />
     </Stack>
   );

@@ -37,7 +37,7 @@ export default function Index() {
             <Pressable
               onPressIn={() => setIsPressed(true)}
               onPressOut={() => setIsPressed(false)}
-              onPress={() => console.log("Kamera")}
+              onPress={() => console.log("camera-example")}
             >
               <Text style={{ textAlign: "center" }}>Camera Example</Text>
             </Pressable>
@@ -46,7 +46,7 @@ export default function Index() {
             <Pressable
               onPressIn={() => setIsPressed(true)}
               onPressOut={() => setIsPressed(false)}
-              onPress={() => console.log("Kamera")}
+              onPress={() => console.log("camera-example-v2")}
             >
               <Text style={{ textAlign: "center" }}>Camera Example v2</Text>
             </Pressable>
@@ -65,14 +65,13 @@ export default function Index() {
               <Text style={{ textAlign: "center" }}>Kamera</Text>
             </Pressable>
           </Link>
-          <Link href="/" style={styles.unPressedDisabled} asChild>
+          <Link href="/scanner-example" style={styles.unPressed} asChild>
             <Pressable
               onPressIn={() => setIsPressed(true)}
               onPressOut={() => setIsPressed(false)}
-              onPress={() => console.log("Kamera")}
-              disabled
+              onPress={() => console.log("scanner-example")}
             >
-              <Text style={{ textAlign: "center" }}>Menu Example</Text>
+              <Text style={{ textAlign: "center" }}>Scanner Example</Text>
             </Pressable>
           </Link>
         </View>
