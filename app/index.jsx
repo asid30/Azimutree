@@ -62,7 +62,7 @@ export default function Index() {
               onPressOut={() => setIsPressed(false)}
               onPress={() => console.log("Kamera")}
             >
-              <Text style={{ textAlign: "center" }}>Kamera</Text>
+              <Text style={{ textAlign: "center" }}>Kamera ...</Text>
             </Pressable>
           </Link>
           <Link href="/scanner-example" style={styles.unPressed} asChild>
