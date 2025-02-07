@@ -17,7 +17,10 @@ const trees = [
 ];
 
 // Titik pusat (pohon1) yang menjadi acuan
-const baseCoordinate = { latitude: -5.419810, longitude: 105.181111 };
+const baseCoordinate1 = { latitude: -5.419938, longitude: 105.181452 };
+const baseCoordinate2 = { latitude: -5.419458, longitude: 105.181200 };
+const baseCoordinate3 = { latitude: -5.419900, longitude: 105.180909 };
+const baseCoordinate4 = { latitude: -5.420208, longitude: 105.181691 };
 
 // Fungsi untuk mengonversi data polar ke koordinat (latitude & longitude)
 const convertPolarToCoordinate = (tree, base) => {
@@ -33,9 +36,9 @@ const convertPolarToCoordinate = (tree, base) => {
 export default function TreeMap() {
     // Atur region peta agar menampilkan titik-titik dengan zoom yang cukup
     const region = {
-        ...baseCoordinate,
-        latitudeDelta: 0.001, // sesuaikan zoom, nilai kecil berarti zoom dekat
-        longitudeDelta: 0.001,
+        ...baseCoordinate1,
+        latitudeDelta: 0.0005, // sesuaikan zoom, nilai kecil berarti zoom dekat
+        longitudeDelta: 0.0005,
     };
 
     return (
@@ -47,15 +50,86 @@ export default function TreeMap() {
 
                 {/* Gambar lingkaran dengan radius 10 m dan border warna merah */}
                 <Circle
-                    center={baseCoordinate}
+                    center={baseCoordinate1}
                     radius={10} // radius dalam meter
                     strokeColor="red"
                     strokeWidth={2}
                     fillColor="rgba(255,0,0,0.1)" // opsional, transparansi isian
                 />
-
                 {trees.map(tree => {
-                    const coordinate = convertPolarToCoordinate(tree, baseCoordinate);
+                    const coordinate = convertPolarToCoordinate(tree, baseCoordinate1);
+                    return (
+                        <Marker
+                            key={tree.id}
+                            coordinate={coordinate}
+                            title={tree.jenis}
+                            description={`Azimuth: ${tree.azimuth}°, Jarak: ${tree.jarak} m`}
+                        >
+                            <View style={styles.customMarker}>
+                                <Text style={styles.markerText}>{tree.id}</Text>
+                            </View>
+                        </Marker>
+                    );
+                })}
+
+                {/* Gambar lingkaran dengan radius 10 m dan border warna merah */}
+                <Circle
+                    center={baseCoordinate2}
+                    radius={10} // radius dalam meter
+                    strokeColor="red"
+                    strokeWidth={2}
+                    fillColor="rgba(255,0,0,0.1)" // opsional, transparansi isian
+                />
+                {trees.map(tree => {
+                    const coordinate = convertPolarToCoordinate(tree, baseCoordinate2);
+                    return (
+                        <Marker
+                            key={tree.id}
+                            coordinate={coordinate}
+                            title={tree.jenis}
+                            description={`Azimuth: ${tree.azimuth}°, Jarak: ${tree.jarak} m`}
+                        >
+                            <View style={styles.customMarker}>
+                                <Text style={styles.markerText}>{tree.id}</Text>
+                            </View>
+                        </Marker>
+                    );
+                })}
+
+                {/* Gambar lingkaran dengan radius 10 m dan border warna merah */}
+                <Circle
+                    center={baseCoordinate3}
+                    radius={10} // radius dalam meter
+                    strokeColor="red"
+                    strokeWidth={2}
+                    fillColor="rgba(255,0,0,0.1)" // opsional, transparansi isian
+                />
+                {trees.map(tree => {
+                    const coordinate = convertPolarToCoordinate(tree, baseCoordinate3);
+                    return (
+                        <Marker
+                            key={tree.id}
+                            coordinate={coordinate}
+                            title={tree.jenis}
+                            description={`Azimuth: ${tree.azimuth}°, Jarak: ${tree.jarak} m`}
+                        >
+                            <View style={styles.customMarker}>
+                                <Text style={styles.markerText}>{tree.id}</Text>
+                            </View>
+                        </Marker>
+                    );
+                })}
+
+                {/* Gambar lingkaran dengan radius 10 m dan border warna merah */}
+                <Circle
+                    center={baseCoordinate4}
+                    radius={10} // radius dalam meter
+                    strokeColor="red"
+                    strokeWidth={2}
+                    fillColor="rgba(255,0,0,0.1)" // opsional, transparansi isian
+                />
+                {trees.map(tree => {
+                    const coordinate = convertPolarToCoordinate(tree, baseCoordinate4);
                     return (
                         <Marker
                             key={tree.id}

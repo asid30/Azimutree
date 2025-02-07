@@ -3,7 +3,7 @@ import { Text, View, StyleSheet, Pressable, Image, ImageBackground } from "react
 import { Link } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-// import LogoImg from "@/assets/images/app-logo.png";
+import LogoImg from "@/assets/images/app-logo.png";
 import BackgroundApp from "@/assets/images/background-app.png";
 
 export default function Index() {
@@ -26,7 +26,7 @@ export default function Index() {
 
         {/* Logo */}
         <View style={styles.firstRow}>
-          {/* <Image style={styles.LogoImg} source={LogoImg} /> */}
+          <Image style={styles.LogoImg} source={LogoImg} />
           <Text style={styles.title}>Menu</Text>
           <Text style={{ color: "white" }}>(Prototype version)</Text>
         </View>
