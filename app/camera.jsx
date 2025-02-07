@@ -1,13 +1,14 @@
 import { useState, useRef, useEffect } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, Image, Button } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, Image, Button, ScrollView } from 'react-native';
 import { CameraView, useCameraPermissions } from 'expo-camera';
 import * as MediaLibrary from 'expo-media-library';
 
-export default function cameraScanner() {
+export default function cameraOCR() {
     const [facing, setFacing] = useState('back');
     const [permission, requestPermission] = useCameraPermissions();
     const [mediaPermission, setMediaPermission] = useState(null);
     const [capturedImage, setCapturedImage] = useState(null);
+    const [visionResult, setVisionResult] = useState(null);
     const cameraRef = useRef(null);
 
     // Permissions untuk media library
@@ -41,8 +42,29 @@ export default function cameraScanner() {
 
     const takePhoto = async () => {
         if (cameraRef.current) {
-            const photo = await cameraRef.current.takePictureAsync();
+            // Pastikan kita meminta base64 dari gambar
+            const photo = await cameraRef.current.takePictureAsync({ base64: true });
             setCapturedImage(photo.uri);
+
+            // Kirim gambar ke backend untuk analisis dengan Google Cloud Vision
+            if (photo.base64) {
+                analyzePhoto(photo.base64);
+            }
+        }
+    };
+
+    const analyzePhoto = async (photoBase64) => {
+        try {
+            const response = await fetch('https://desired-iguana-scarcely.ngrok-free.app/analyze', {  // Ganti dengan URL backend Anda
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ image: photoBase64 })
+            });
+            const result = await response.json();
+            console.log('Vision API text detection result:', result);
+            setVisionResult(result);
+        } catch (error) {
+            console.error('Error analyzing photo:', error);
         }
     };
 
@@ -51,6 +73,7 @@ export default function cameraScanner() {
             await MediaLibrary.saveToLibraryAsync(capturedImage);
             alert('Foto berhasil disimpan!');
             setCapturedImage(null);
+            setVisionResult(null);
         }
     };
 
@@ -70,15 +93,26 @@ export default function cameraScanner() {
                 </CameraView>
             ) : (
                 <View style={styles.previewContainer}>
-                    <Image source={{ uri: capturedImage }} style={styles.preview} />
-                    <View style={styles.previewButtons}>
-                        <TouchableOpacity style={styles.retakeButton} onPress={() => setCapturedImage(null)}>
-                            <Text style={styles.buttonText}>Ambil Ulang</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity style={styles.saveButton} onPress={savePhoto}>
-                            <Text style={styles.buttonText}>Simpan</Text>
-                        </TouchableOpacity>
-                    </View>
+                    <ScrollView>
+                        <Image source={{ uri: capturedImage }} style={styles.preview} />
+                        {visionResult && visionResult.detections && (
+                            <View style={styles.visionContainer}>
+                                <Text style={styles.visionTitle}>Teks yang terdeteksi:</Text>
+                                {visionResult.detections.map((detection, index) => (
+                                    // Biasanya elemen pertama adalah teks lengkap, jadi bisa ditampilkan secara terpisah
+                                    <Text key={index} style={styles.visionText}>{detection.description}</Text>
+                                ))}
+                            </View>
+                        )}
+                        <View style={styles.previewButtons}>
+                            <TouchableOpacity style={styles.retakeButton} onPress={() => { setCapturedImage(null); setVisionResult(null); }}>
+                                <Text style={styles.buttonText}>Ambil Ulang</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity style={styles.saveButton} onPress={savePhoto}>
+                                <Text style={styles.buttonText}>Simpan</Text>
+                            </TouchableOpacity>
+                        </View>
+                    </ScrollView>
                 </View>
             )}
         </View>
@@ -153,5 +187,19 @@ const styles = StyleSheet.create({
     buttonText: {
         color: 'white',
         fontWeight: 'bold',
+    },
+    visionContainer: {
+        backgroundColor: 'rgba(0,0,0,0.6)',
+        padding: 10,
+        borderRadius: 10,
+        marginTop: 10,
+    },
+    visionTitle: {
+        color: '#fff',
+        fontWeight: 'bold',
+        marginBottom: 5,
+    },
+    visionText: {
+        color: '#fff',
     },
 });

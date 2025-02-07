@@ -31,52 +31,58 @@ export default function Index() {
           <Text style={{ color: "white" }}>(Prototype version)</Text>
         </View>
 
-        {/* Tombol Camera Example dan Menu Example */}
+        {/* baris 1 */}
         <View style={styles.nextRow}>
-          <Link href="/camera-example" style={styles.unPressed} asChild>
+          <Link href="/camera-example" style={styles.unPressedDisabled} asChild>
             <Pressable
               onPressIn={() => setIsPressed(true)}
               onPressOut={() => setIsPressed(false)}
               onPress={() => console.log("camera-example")}
+              disabled
             >
-              <Text style={{ textAlign: "center" }}>Camera Example</Text>
+              {/* <Text style={{ textAlign: "center" }}>Camera Example</Text> */}
+              <Text style={{ textAlign: "center" }}>Menu Example</Text>
             </Pressable>
           </Link>
-          <Link href="/camera-example-v2" style={styles.unPressed} asChild>
+          <Link href="/camera-example-v2" style={styles.unPressedDisabled} asChild>
             <Pressable
               onPressIn={() => setIsPressed(true)}
               onPressOut={() => setIsPressed(false)}
               onPress={() => console.log("camera-example-v2")}
+              disabled
             >
-              <Text style={{ textAlign: "center" }}>Camera Example v2</Text>
+              {/* <Text style={{ textAlign: "center" }}>Camera Example v2</Text> */}
+              <Text style={{ textAlign: "center" }}>Menu Example</Text>
             </Pressable>
           </Link>
         </View>
 
-        {/* Tombol Kamera dan Upload */}
+        {/* baris 2 */}
         <View style={styles.nextRow}>
           {/* Tombol Kamera */}
-          <Link href="/camera" style={styles.unPressed} asChild>
+          <Link href="/camera" style={isPressed ? styles.Pressed : styles.unPressed} asChild>
             <Pressable
               onPressIn={() => setIsPressed(true)}
               onPressOut={() => setIsPressed(false)}
               onPress={() => console.log("Kamera")}
             >
-              <Text style={{ textAlign: "center" }}>Kamera ...</Text>
+              <Text style={{ textAlign: "center" }}>Kamera</Text>
             </Pressable>
           </Link>
-          <Link href="/scanner-example" style={styles.unPressed} asChild>
+          <Link href="/scanner-example" style={styles.unPressedDisabled} asChild>
             <Pressable
               onPressIn={() => setIsPressed(true)}
               onPressOut={() => setIsPressed(false)}
               onPress={() => console.log("scanner-example")}
+              disabled
             >
-              <Text style={{ textAlign: "center" }}>Scanner Example</Text>
+              {/* <Text style={{ textAlign: "center" }}>Scanner Example</Text> */}
+              <Text style={{ textAlign: "center" }}>Menu Example</Text>
             </Pressable>
           </Link>
         </View>
 
-        {/* Manu */}
+        {/* baris 3 */}
         <View style={styles.nextRow}>
           <Link href="/" style={styles.unPressedDisabled} asChild>
             <Pressable
@@ -96,6 +102,20 @@ export default function Index() {
               disabled
             >
               <Text style={{ textAlign: "center" }}>Menu Example</Text>
+            </Pressable>
+          </Link>
+        </View>
+
+        {/* baris 4 */}
+        <View style={[styles.nextRow, { marginTop: 80 }]}>
+          <Link href="/" style={styles.unPressedDisabled} asChild>
+            <Pressable
+              onPressIn={() => setIsPressed(true)}
+              onPressOut={() => setIsPressed(false)}
+              onPress={() => console.log("Kamera")}
+              disabled
+            >
+              <Text style={{ textAlign: "center" }}>Quit</Text>
             </Pressable>
           </Link>
         </View>
@@ -157,8 +177,8 @@ const styles = StyleSheet.create({
   },
   Pressed: {
     flexDirection: "column",
-    paddingVertical: 20,
-    backgroundColor: "green",
+    paddingVertical: 10,
+    backgroundColor: "rgb(6, 161, 151)",
     borderRadius: 20,
     width: 150,
   },
