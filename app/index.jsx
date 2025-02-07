@@ -60,9 +60,9 @@ export default function Index() {
         {/* baris 2 */}
         <View style={styles.nextRow}>
           {/* Tombol Kamera */}
-          <Link href="/camera" style={isPressed ? styles.Pressed : styles.unPressed} asChild>
+          <Link href="/camera" style={isPressed == "cameraOnPress" ? styles.Pressed : styles.unPressed} asChild>
             <Pressable
-              onPressIn={() => setIsPressed(true)}
+              onPressIn={() => setIsPressed("cameraOnPress")}
               onPressOut={() => setIsPressed(false)}
               onPress={() => console.log("Kamera")}
             >
@@ -84,24 +84,24 @@ export default function Index() {
 
         {/* baris 3 */}
         <View style={styles.nextRow}>
-          <Link href="/" style={styles.unPressedDisabled} asChild>
+          <Link href="/map-example" style={isPressed == "mapOnPress" ? styles.Pressed : styles.unPressed} asChild>
             <Pressable
-              onPressIn={() => setIsPressed(true)}
+              onPressIn={() => setIsPressed("mapOnPress")}
               onPressOut={() => setIsPressed(false)}
-              onPress={() => console.log("Kamera")}
-              disabled
+              onPress={() => console.log("map-example")}
+            // disabled
             >
-              <Text style={{ textAlign: "center" }}>Menu Example</Text>
+              <Text style={{ textAlign: "center" }}>Map Example</Text>
             </Pressable>
           </Link>
-          <Link href="/" style={styles.unPressedDisabled} asChild>
+          <Link href="/map-example-v2" style={isPressed == "mapOnPressV2" ? styles.Pressed : styles.unPressed} asChild>
             <Pressable
-              onPressIn={() => setIsPressed(true)}
+              onPressIn={() => setIsPressed("mapOnPressV2")}
               onPressOut={() => setIsPressed(false)}
               onPress={() => console.log("Kamera")}
-              disabled
+            // disabled
             >
-              <Text style={{ textAlign: "center" }}>Menu Example</Text>
+              <Text style={{ textAlign: "center" }}>Map Example v2</Text>
             </Pressable>
           </Link>
         </View>

@@ -19,15 +19,23 @@ export default function RootLayout() {
       />
       <Stack.Screen
         name="camera-example"
-        options={{ headerShown: false, title: "camera-example" }}
+        options={{ headerShown: false, title: "Contoh Kamera" }}
       />
       <Stack.Screen
         name="camera-example-v2"
-        options={{ headerShown: false, title: "camera-example-v2" }}
+        options={{ headerShown: false, title: "Contoh Kamera v2" }}
       />
       <Stack.Screen
         name="scanner-example"
-        options={{ headerShown: false, title: "scanner-example" }}
+        options={{ headerShown: false, title: "Contoh Scanner" }}
+      />
+      <Stack.Screen
+        name="map-example"
+        options={{ headerShown: false, title: "Contoh Map" }}
+      />
+      <Stack.Screen
+        name="map-example-v2"
+        options={{ headerShown: false, title: "Contoh Map V2" }}
       />
     </Stack>
   );
