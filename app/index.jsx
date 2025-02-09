@@ -40,7 +40,6 @@ export default function Index() {
               onPress={() => console.log("camera-example")}
               disabled
             >
-              {/* <Text style={{ textAlign: "center" }}>Camera Example</Text> */}
               <Text style={{ textAlign: "center" }}>Menu Example</Text>
             </Pressable>
           </Link>
@@ -51,7 +50,6 @@ export default function Index() {
               onPress={() => console.log("camera-example-v2")}
               disabled
             >
-              {/* <Text style={{ textAlign: "center" }}>Camera Example v2</Text> */}
               <Text style={{ textAlign: "center" }}>Menu Example</Text>
             </Pressable>
           </Link>
@@ -76,7 +74,6 @@ export default function Index() {
               onPress={() => console.log("scanner-example")}
               disabled
             >
-              {/* <Text style={{ textAlign: "center" }}>Scanner Example</Text> */}
               <Text style={{ textAlign: "center" }}>Menu Example</Text>
             </Pressable>
           </Link>

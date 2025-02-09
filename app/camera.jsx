@@ -1,7 +1,10 @@
 import { useState, useRef, useEffect } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, Image, Button, ScrollView } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, Image, Button, ScrollView, ImageBackground } from 'react-native';
+import { SafeAreaView } from "react-native-safe-area-context";
 import { CameraView, useCameraPermissions } from 'expo-camera';
 import * as MediaLibrary from 'expo-media-library';
+
+import BackgroundApp from "@/assets/images/background-app.png";
 
 export default function cameraOCR() {
     const [facing, setFacing] = useState('back');
@@ -78,66 +81,117 @@ export default function cameraOCR() {
     };
 
     return (
-        <View style={styles.container}>
-            {!capturedImage ? (
-                <CameraView style={styles.camera} facing={facing} ref={cameraRef}>
+        <SafeAreaView>
+            <ImageBackground source={BackgroundApp} resizeMode="cover" style={styles.container}>
+                <View style={styles.linearRow}>
+                    <Text style={styles.title}>
+                        Scanner
+                    </Text>
+                </View>
+                <View style={styles.linearRow}>
+                    {!capturedImage ? (
+                        < CameraView style={styles.camera} facing={facing} ref={cameraRef}>
+                        </CameraView>
+                    ) : (
+                        <View style={styles.camera}>
+                            <Image source={{ uri: capturedImage }} style={styles.preview} />
+                        </View>)}
+
+                    {/* <View style={styles.camera}>
+                    </View> */}
+                </View>
+
+                {!capturedImage ? (
                     <View style={styles.buttonContainer}>
                         <TouchableOpacity style={styles.flipButton} onPress={() => setFacing(current => current === 'back' ? 'front' : 'back')}>
-                            <Text style={styles.text}>Flip Kamera</Text>
+                            <Text style={styles.text}>Putar Kamera</Text>
                         </TouchableOpacity>
 
                         <TouchableOpacity style={styles.captureButton} onPress={takePhoto}>
                             <View style={styles.captureInner} />
                         </TouchableOpacity>
                     </View>
-                </CameraView>
-            ) : (
-                <View style={styles.previewContainer}>
-                    <ScrollView>
-                        <Image source={{ uri: capturedImage }} style={styles.preview} />
-                        {visionResult && visionResult.detections && (
-                            <View style={styles.visionContainer}>
-                                <Text style={styles.visionTitle}>Teks yang terdeteksi:</Text>
-                                {visionResult.detections.map((detection, index) => (
+                ) : (
+                    <View></View>
+                )}
+
+                <View style={styles.linearRow}>
+                    <Text style={styles.text}>
+                        Teks yang terdeteksi:
+                    </Text>
+                </View>
+
+                <ScrollView style={styles.linearRow}>
+                    {!visionResult ? (
+                        [...Array(10)].map((_, index) => (
+                            <TouchableOpacity key={index} style={styles.visionContainer}>
+                                <Text style={styles.text}>
+                                    Lorem, ipsum.
+                                </Text>
+                            </TouchableOpacity>
+                        ))) : (
+                        <TouchableOpacity style={styles.visionContainer}>
+                            {visionResult && visionResult.detections && (
+                                visionResult.detections.map((detection, index) => (
                                     // Biasanya elemen pertama adalah teks lengkap, jadi bisa ditampilkan secara terpisah
                                     <Text key={index} style={styles.visionText}>{detection.description}</Text>
-                                ))}
-                            </View>
-                        )}
-                        <View style={styles.previewButtons}>
-                            <TouchableOpacity style={styles.retakeButton} onPress={() => { setCapturedImage(null); setVisionResult(null); }}>
-                                <Text style={styles.buttonText}>Ambil Ulang</Text>
-                            </TouchableOpacity>
-                            <TouchableOpacity style={styles.saveButton} onPress={savePhoto}>
-                                <Text style={styles.buttonText}>Simpan</Text>
-                            </TouchableOpacity>
-                        </View>
-                    </ScrollView>
+                                ))
+                            )}
+                        </TouchableOpacity>
+                    )}
+                </ScrollView>
+
+                <View style={[styles.linearRow, { marginBottom: 30 }]}>
+                    <Text style={styles.text}>
+                        Sulit mendeteksi? Coba gunakan mode manual
+                    </Text>
+                    <TouchableOpacity style={[styles.visionContainer, { alignSelf: "center", padding: 10 }]}>
+                        <Text style={styles.text}>
+                            Input Manual
+                        </Text>
+                    </TouchableOpacity>
                 </View>
-            )}
-        </View>
+                {/* Footer */}
+                <View style={styles.footer}>
+                    <Text style={{ color: "white" }}>© 2025 Azimutree | Sidz</Text>
+                </View>
+            </ImageBackground>
+        </SafeAreaView >
     );
 }
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
-        justifyContent: 'center',
+        // flex: 1,
+        flexDirection: "column",
+        width: "100%",
+        height: "100%",
+        // justifyContent: "flex-start",
+        alignContent: "flex-start"
+    },
+    linearRow: {
+        marginHorizontal: 20,
+        marginBottom: 10,
     },
     camera: {
-        flex: 1,
+        // flex: 1,
+        // justifyContent: 'flex-start',
+        backgroundColor: 'yellow',
+        height: 300,
+        width: "100%",
+        borderRadius: 10,
     },
     buttonContainer: {
-        flex: 1,
+        // flex: 1,
         flexDirection: 'row',
         backgroundColor: 'transparent',
-        margin: 20,
-        justifyContent: 'space-between',
-        alignItems: 'flex-end',
+        // margin: 20,
+        justifyContent: 'space-around',
+        alignItems: 'center',
     },
     flipButton: {
         padding: 15,
-        backgroundColor: 'rgba(0,0,0,0.4)',
+        backgroundColor: 'rgba(0,0,0,0.6)',
         borderRadius: 10,
     },
     captureButton: {
@@ -155,18 +209,20 @@ const styles = StyleSheet.create({
         borderRadius: 30,
         backgroundColor: '#ff4040',
     },
+    title: {
+        color: "white",
+        fontSize: 30,
+        fontWeight: "bold",
+        marginTop: 10,
+        textAlign: "center",
+    },
     text: {
         fontSize: 16,
         color: 'white',
     },
-    previewContainer: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
     preview: {
-        width: '90%',
-        height: '80%',
+        width: '100%',
+        height: '100%',
         borderRadius: 10,
     },
     previewButtons: {
@@ -190,9 +246,10 @@ const styles = StyleSheet.create({
     },
     visionContainer: {
         backgroundColor: 'rgba(0,0,0,0.6)',
-        padding: 10,
+        padding: 7,
         borderRadius: 10,
-        marginTop: 10,
+        marginTop: 5,
+        alignSelf: "flex-start"
     },
     visionTitle: {
         color: '#fff',
@@ -201,5 +258,16 @@ const styles = StyleSheet.create({
     },
     visionText: {
         color: '#fff',
+    },
+    footer: {
+        paddingTop: 20,
+        flexDirection: "row",
+        justifyContent: "center",
+        position: 'absolute',
+        bottom: 0,
+        // flex: 1,
+        alignSelf: 'stretch',
+        right: 0,
+        left: 0,
     },
 });
