@@ -130,14 +130,16 @@ export default function cameraOCR() {
                                 </Text>
                             </TouchableOpacity>
                         ))) : (
-                        <TouchableOpacity style={styles.visionContainer}>
+                        <View>
                             {visionResult && visionResult.detections && (
                                 visionResult.detections.map((detection, index) => (
-                                    // Biasanya elemen pertama adalah teks lengkap, jadi bisa ditampilkan secara terpisah
-                                    <Text key={index} style={styles.visionText}>{detection.description}</Text>
+                                    <TouchableOpacity style={styles.visionContainer}>
+                                        {/* // Biasanya elemen pertama adalah teks lengkap, jadi bisa ditampilkan secara terpisah */}
+                                        <Text key={index} style={styles.visionText}>{detection.description}</Text>
+                                    </TouchableOpacity>
                                 ))
                             )}
-                        </TouchableOpacity>
+                        </View>
                     )}
                 </ScrollView>
 
