@@ -1,11 +1,13 @@
 import React from 'react';
-import { View, StyleSheet, Dimensions } from 'react-native';
+import { View, StyleSheet, Dimensions, ImageBackground } from 'react-native';
+import { SafeAreaView } from "react-native-safe-area-context";
 import Svg, { Circle, Line, Text as SvgText } from 'react-native-svg';
+import BackgroundApp from "@/assets/images/background-app.png";
 
 // Ambil ukuran layar untuk mengatur ukuran kanvas
 const { width, height } = Dimensions.get('window');
-// Ukuran kanvas (disini kita gunakan 90% dari lebar layar, bisa disesuaikan)
-const canvasSize = Math.min(width, height) * 0.9;
+// Ukuran kanvas (disini kita gunakan 100% dari lebar layar, bisa disesuaikan)
+const canvasSize = Math.min(width, height) * 1;
 // Titik pusat kanvas (dalam pixel)
 const center = canvasSize / 2;
 
@@ -37,62 +39,64 @@ const polarToCartesian = (jarak, azimuth) => {
 
 export default function TreeChart() {
     return (
-        <View style={styles.container}>
-            <Svg height={canvasSize} width={canvasSize} style={styles.svg}>
-                {/* Gambar sumbu X dan Y */}
-                <Line
-                    x1={0}
-                    y1={center}
-                    x2={canvasSize}
-                    y2={center}
-                    stroke="gray"
-                    strokeWidth="1"
-                />
-                <Line
-                    x1={center}
-                    y1={0}
-                    x2={center}
-                    y2={canvasSize}
-                    stroke="gray"
-                    strokeWidth="1"
-                />
+        <SafeAreaView style={styles.container}>
+            <ImageBackground source={BackgroundApp} resizeMode="cover" style={styles.container}>
+                <Svg height={canvasSize} width={canvasSize} style={styles.svg}>
+                    {/* Gambar sumbu X dan Y */}
+                    <Line
+                        x1={0}
+                        y1={center}
+                        x2={canvasSize}
+                        y2={center}
+                        stroke="gray"
+                        strokeWidth="1"
+                    />
+                    <Line
+                        x1={center}
+                        y1={0}
+                        x2={center}
+                        y2={canvasSize}
+                        stroke="gray"
+                        strokeWidth="1"
+                    />
 
-                {/* Gambar titik-titik untuk masing-masing pohon */}
-                {trees.map((tree) => {
-                    const { x, y } = polarToCartesian(tree.jarak, tree.azimuth);
-                    // Transformasi koordinat: dari (0,0) di tengah ke posisi di kanvas
-                    const cx = center + x * scale;
-                    const cy = center + y * scale;
-                    return (
-                        <Circle
-                            key={tree.id}
-                            cx={cx}
-                            cy={cy}
-                            r="5"
-                            fill="red"
-                        />
-                    );
-                })}
+                    {/* Gambar titik-titik untuk masing-masing pohon */}
+                    {trees.map((tree) => {
+                        const { x, y } = polarToCartesian(tree.jarak, tree.azimuth);
+                        // Transformasi koordinat: dari (0,0) di tengah ke posisi di kanvas
+                        const cx = center + x * scale;
+                        const cy = center + y * scale;
+                        return (
+                            <Circle
+                                key={tree.id}
+                                cx={cx}
+                                cy={cy}
+                                r="5"
+                                fill="red"
+                            />
+                        );
+                    })}
 
-                {/* Gambar label untuk tiap pohon */}
-                {trees.map((tree) => {
-                    const { x, y } = polarToCartesian(tree.jarak, tree.azimuth);
-                    const cx = center + x * scale;
-                    const cy = center + y * scale;
-                    return (
-                        <SvgText
-                            key={'label' + tree.id}
-                            x={cx + 8}
-                            y={cy - 8}
-                            fontSize="10"
-                            fill="black"
-                        >
-                            {tree.id}-{tree.jenis}-{tree.azimuth}
-                        </SvgText>
-                    );
-                })}
-            </Svg>
-        </View>
+                    {/* Gambar label untuk tiap pohon */}
+                    {trees.map((tree) => {
+                        const { x, y } = polarToCartesian(tree.jarak, tree.azimuth);
+                        const cx = center + x * scale;
+                        const cy = center + y * scale;
+                        return (
+                            <SvgText
+                                key={'label' + tree.id}
+                                x={cx + 8}
+                                y={cy - 8}
+                                fontSize="10"
+                                fill="black"
+                            >
+                                {tree.id}-{tree.jenis}-{tree.azimuth}
+                            </SvgText>
+                        );
+                    })}
+                </Svg>
+            </ImageBackground>
+        </SafeAreaView>
     );
 }
 

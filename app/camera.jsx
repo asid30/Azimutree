@@ -2,25 +2,25 @@ import { useState, useRef, useEffect } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, Image, Button, ScrollView, ImageBackground } from 'react-native';
 import { SafeAreaView } from "react-native-safe-area-context";
 import { CameraView, useCameraPermissions } from 'expo-camera';
-import * as MediaLibrary from 'expo-media-library';
+// import * as MediaLibrary from 'expo-media-library';
 
 import BackgroundApp from "@/assets/images/background-app.png";
 
 export default function cameraOCR() {
     const [facing, setFacing] = useState('back');
     const [permission, requestPermission] = useCameraPermissions();
-    const [mediaPermission, setMediaPermission] = useState(null);
+    // const [mediaPermission, setMediaPermission] = useState(null);
     const [capturedImage, setCapturedImage] = useState(null);
     const [visionResult, setVisionResult] = useState(null);
     const cameraRef = useRef(null);
 
     // Permissions untuk media library
-    useEffect(() => {
-        (async () => {
-            const { status } = await MediaLibrary.requestPermissionsAsync();
-            setMediaPermission(status === 'granted');
-        })();
-    }, []);
+    // useEffect(() => {
+    //     (async () => {
+    //         const { status } = await MediaLibrary.requestPermissionsAsync();
+    //         setMediaPermission(status === 'granted');
+    //     })();
+    // }, []);
 
     if (!permission) {
         return <View />;
@@ -35,13 +35,13 @@ export default function cameraOCR() {
         );
     }
 
-    if (mediaPermission === false) {
-        return (
-            <View style={styles.container}>
-                <Text style={{ textAlign: 'center' }}>Izin penyimpanan diperlukan</Text>
-            </View>
-        );
-    }
+    // if (mediaPermission === false) {
+    //     return (
+    //         <View style={styles.container}>
+    //             <Text style={{ textAlign: 'center' }}>Izin penyimpanan diperlukan</Text>
+    //         </View>
+    //     );
+    // }
 
     const takePhoto = async () => {
         if (cameraRef.current) {
@@ -71,14 +71,14 @@ export default function cameraOCR() {
         }
     };
 
-    const savePhoto = async () => {
-        if (capturedImage) {
-            await MediaLibrary.saveToLibraryAsync(capturedImage);
-            alert('Foto berhasil disimpan!');
-            setCapturedImage(null);
-            setVisionResult(null);
-        }
-    };
+    // const savePhoto = async () => {
+    //     if (capturedImage) {
+    //         await MediaLibrary.saveToLibraryAsync(capturedImage);
+    //         alert('Foto berhasil disimpan!');
+    //         setCapturedImage(null);
+    //         setVisionResult(null);
+    //     }
+    // };
 
     return (
         <SafeAreaView>
@@ -123,22 +123,24 @@ export default function cameraOCR() {
 
                 <ScrollView style={styles.linearRow}>
                     {!visionResult ? (
-                        [...Array(10)].map((_, index) => (
-                            <TouchableOpacity key={index} style={styles.visionContainer}>
-                                <Text style={styles.text}>
-                                    Lorem, ipsum.
-                                </Text>
-                            </TouchableOpacity>
-                        ))) : (
+                        <View style={styles.visionContainer}>
+                            <Text style={styles.text}>
+                                Tidak ada teks yang terdeteksi
+                            </Text>
+                        </View>
+                    ) : (
                         <View>
-                            {visionResult && visionResult.detections && (
-                                visionResult.detections.map((detection, index) => (
-                                    <TouchableOpacity style={styles.visionContainer}>
-                                        {/* // Biasanya elemen pertama adalah teks lengkap, jadi bisa ditampilkan secara terpisah */}
-                                        <Text key={index} style={styles.visionText}>{detection.description}</Text>
-                                    </TouchableOpacity>
-                                ))
-                            )}
+                            <ul>
+                                {visionResult && visionResult.detections && (
+                                    visionResult.detections.map((detection, index) => (
+                                        <li>
+                                            <TouchableOpacity style={styles.visionContainer}>
+                                                <Text key={index} style={styles.visionText}>{detection.description}</Text>
+                                            </TouchableOpacity>
+                                        </li>
+                                    ))
+                                )}
+                            </ul>
                         </View>
                     )}
                 </ScrollView>
